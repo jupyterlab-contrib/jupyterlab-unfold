@@ -27,7 +27,6 @@ const EXTENSION_ID = 'jupyterlab-unfold';
  */
 const namespace = 'filebrowser';
 
-
 const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
   id: EXTENSION_ID,
   provides: IFileBrowserFactory,
