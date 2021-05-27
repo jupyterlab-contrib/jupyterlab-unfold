@@ -5,7 +5,8 @@ channels:
 
 dependencies:
   - python >=3.8,<3.9.0a0
-  - jupyterlab ==3.1.0-alpha.10
   - yarn
   - pip
   - wheel
+  - pip:
+    - jupyterlab ==3.1.0-alpha.10
