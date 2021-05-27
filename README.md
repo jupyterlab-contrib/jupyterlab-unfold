@@ -4,7 +4,7 @@
 
 An IDE-like file browser
 
-
+![jupyterlab-unfold](images/screenshot.png)
 
 ## Requirements
 
