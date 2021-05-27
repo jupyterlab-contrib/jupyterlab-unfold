@@ -1,6 +1,6 @@
 # jupyterlab-unfold
 
-![Github Actions Status](https://github.com/martinRenou/jupyterlab-unfold/workflows/Build/badge.svg)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/martinRenou/jupyterlab-unfold/HEAD?urlpath=lab)
+![Github Actions Status](https://github.com/martinRenou/jupyterlab-unfold/actions/workflows/build.yml/badge.svg?branch=master)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/martinRenou/jupyterlab-unfold/HEAD?urlpath=lab)
 
 An IDE-like file browser
 
