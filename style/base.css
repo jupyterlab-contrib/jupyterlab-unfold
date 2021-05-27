@@ -1,0 +1,21 @@
+:root {
+    --indent: 1em;
+}
+
+.jp-DirListing-item {
+    flex-grow: 1;
+}
+
+.jp-DirListing-vbar {
+    border-left-color:  var(--jp-border-color2);
+    border-left-style: solid;
+    border-left-width: 1px;
+    margin-left: 10px;
+    margin-top: -4px;
+    margin-bottom: -4px;
+    margin-right: 2px;
+}
+
+.jp-DirListing-item.jp-mod-running .jp-DirListing-itemIcon:before {
+    left: -2px;
+}

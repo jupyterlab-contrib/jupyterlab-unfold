@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  run:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.8]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install Mamba
+      uses: mamba-org/provision-with-micromamba@main
+
+    # TODO Use mamba once we rely on jupyterlab 3.1 from conda-forge
+    - name: Install dependencies
+      run: pip install jupyterlab==3.1.0-alpha.10
+
+    - name: Install filetree
+      run: pip install .
+
+    - name: Check installation files
+      run: |
+        test -d $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-filetree
+        test -f $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-filetree/package.json
+
+    - name: Lint check
+      run: |
+        yarn install
+        yarn eslint:check
