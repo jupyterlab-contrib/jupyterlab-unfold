@@ -151,8 +151,7 @@ export class FileTreeRenderer extends DirListing.Renderer {
         'jp-DirListing-itemIcon'
       );
 
-      LabIcon.resolveElement({
-        icon: folderOpenIcon,
+      folderOpenIcon.element({
         iconClass: classes('jp-Icon'),
         container: iconContainer,
         className: 'jp-DirListing-itemIcon',
