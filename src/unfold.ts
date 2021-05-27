@@ -240,11 +240,6 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
     this.contentManager = this.app.serviceManager.contents;
     this.basePath = '.';
 
-    const { services } = options.manager;
-    // @ts-ignore: We need to overwrite _onFileChanged instead
-    services.contents.fileChanged.disconnect(this._onFileChanged, this);
-    services.contents.fileChanged.connect(this.onFileChangedHandler, this);
-
     this._savedState = options.state || null;
   }
 
@@ -335,6 +330,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
       const value = await state.fetch(key);
 
       if (!value) {
+        await this.cd('.');
         this._isRestored.resolve(undefined);
         return;
       }
@@ -344,6 +340,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
       };
       await this.cd('.');
     } catch (error) {
+      await this.cd('.');
       await state.remove(key);
     }
 
@@ -430,7 +427,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
     return sortedDirectories.concat(sortedFiles);
   }
 
-  private onFileChangedHandler(
+  protected onFileChanged(
     sender: Contents.IManager,
     change: Contents.IChangedArgs
   ): void {
