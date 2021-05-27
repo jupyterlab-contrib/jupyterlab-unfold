@@ -437,7 +437,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
   private _isRestored = new PromiseDelegate<void>();
   private _savedState: IStateDB | null = null;
   private _stateKey: string | null = null;
-  private _path: string = '.';
+  private _path = '.';
   private basePath: string;
   private contentManager: ContentsManager;
   private app: JupyterFrontEnd;

@@ -1,0 +1,6 @@
+name: jupyterlab-unfold
+channels:
+  - conda-forge
+dependencies:
+  - yarn
+  - jupyter-packaging

@@ -33,13 +33,13 @@ jobs:
     - name: Install dependencies
       run: pip install jupyterlab==3.1.0-alpha.10
 
-    - name: Install filetree
+    - name: Install jupyterlab-unfold
       run: pip install .
 
     - name: Check installation files
       run: |
-        test -d $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-filetree
-        test -f $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-filetree/package.json
+        test -d $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-unfold
+        test -f $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-unfold/package.json
 
     - name: Lint check
       run: |
