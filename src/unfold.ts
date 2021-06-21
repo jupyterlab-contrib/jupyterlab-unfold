@@ -22,7 +22,7 @@ import {
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { classes, LabIcon } from '@jupyterlab/ui-components';
+import { LabIcon } from '@jupyterlab/ui-components';
 
 import { IStateDB } from '@jupyterlab/statedb';
 
@@ -152,7 +152,6 @@ export class FileTreeRenderer extends DirListing.Renderer {
       );
 
       folderOpenIcon.element({
-        iconClass: classes('jp-Icon'),
         container: iconContainer,
         className: 'jp-DirListing-itemIcon',
         stylesheet: 'listing'
