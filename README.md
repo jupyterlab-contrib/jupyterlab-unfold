@@ -8,7 +8,7 @@ An IDE-like file browser
 
 ## Requirements
 
-* JupyterLab >= 3.1.0-alpha.10
+* JupyterLab >= 3.1.0-alpha.12
 
 ## Install
 
