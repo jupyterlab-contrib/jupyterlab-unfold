@@ -1,16 +1,22 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import { toArray } from '@lumino/algorithm';
+import { IDragEvent } from '@lumino/dragdrop';
+
+import { ArrayExt, toArray } from '@lumino/algorithm';
+
+import { ElementExt } from '@lumino/domutils';
 
 import { PromiseDelegate, ReadonlyJSONObject } from '@lumino/coreutils';
 
-import { DOMUtils } from '@jupyterlab/apputils';
+import { DOMUtils, showErrorMessage } from '@jupyterlab/apputils';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
 import { Contents, ContentsManager } from '@jupyterlab/services';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
+
+import { renameFile } from '@jupyterlab/docmanager';
 
 import { PathExt } from '@jupyterlab/coreutils';
 
@@ -28,6 +34,16 @@ import { IStateDB } from '@jupyterlab/statedb';
 
 // @ts-ignore
 import folderOpenSvgstr from '../style/icons/folder-open.svg';
+
+/**
+ * The class name added to drop targets.
+ */
+const DROP_TARGET_CLASS = 'jp-mod-dropTarget';
+
+/**
+ * The mime type for a contents drag object.
+ */
+const CONTENTS_MIME = 'application/x-jupyter-icontents';
 
 export const folderOpenIcon = new LabIcon({
   name: 'ui-components:folder-open',
@@ -223,6 +239,148 @@ export class DirTreeListing extends DirListing {
       } else {
         this.model.path = '/' + PathExt.dirname(selection);
       }
+    }
+  }
+
+  private _eventDragEnter(event: IDragEvent): void {
+    if (event.mimeData.hasData(CONTENTS_MIME)) {
+      // @ts-ignore
+      const index = this._hitTestNodes(this._items, event);
+
+      let target: HTMLElement;
+      if (index !== -1) {
+        // @ts-ignore
+        target = this._items[index];
+      } else {
+        target = event.target as HTMLElement;
+      }
+      target.classList.add(DROP_TARGET_CLASS);
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  private _eventDragOver(event: IDragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    event.dropAction = event.proposedAction;
+
+    const dropTarget = DOMUtils.findElement(this.node, DROP_TARGET_CLASS);
+    if (dropTarget) {
+      dropTarget.classList.remove(DROP_TARGET_CLASS);
+    }
+
+    // @ts-ignore
+    const index = this._hitTestNodes(this._items, event);
+
+    let target: HTMLElement;
+    if (index !== -1) {
+      // @ts-ignore
+      target = this._items[index];
+    } else {
+      target = event.target as HTMLElement;
+    }
+    target.classList.add(DROP_TARGET_CLASS);
+  }
+
+  private _eventDrop(event: IDragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    // @ts-ignore
+    clearTimeout(this._selectTimer);
+    if (event.proposedAction === 'none') {
+      event.dropAction = 'none';
+      return;
+    }
+    if (!event.mimeData.hasData(CONTENTS_MIME)) {
+      return;
+    }
+
+    let target = event.target as HTMLElement;
+    while (target && target.parentElement) {
+      if (target.classList.contains(DROP_TARGET_CLASS)) {
+        target.classList.remove(DROP_TARGET_CLASS);
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    // Get the path based on the target node.
+    // @ts-ignore
+    const index = ArrayExt.firstIndexOf(this._items, target);
+    let newDir: string;
+
+    if (index !== -1) {
+      const item = toArray(this.model.items())[index];
+
+      if (item.type === 'directory') {
+        newDir = item.path;
+      } else {
+        newDir = PathExt.dirname(item.path);
+      }
+    } else {
+      newDir = '';
+    }
+
+    // @ts-ignore
+    const manager = this._manager;
+
+    // Handle the items.
+    const promises: Promise<Contents.IModel | null>[] = [];
+    const paths = event.mimeData.getData(CONTENTS_MIME) as string[];
+
+    if (event.ctrlKey && event.proposedAction === 'move') {
+      event.dropAction = 'copy';
+    } else {
+      event.dropAction = event.proposedAction;
+    }
+    for (const path of paths) {
+      const localPath = manager.services.contents.localPath(path);
+      const name = PathExt.basename(localPath);
+      const newPath = PathExt.join(newDir, name);
+      // Skip files that are not moving.
+      if (newPath === path) {
+        continue;
+      }
+
+      if (event.dropAction === 'copy') {
+        promises.push(manager.copy(path, newDir));
+      } else {
+        promises.push(renameFile(manager, path, newPath));
+      }
+    }
+    Promise.all(promises).catch(error => {
+      void showErrorMessage(
+        // @ts-ignore
+        this._trans._p('showErrorMessage', 'Error while copying/moving files'),
+        error
+      );
+    });
+  }
+
+  private _hitTestNodes(nodes: HTMLElement[], event: MouseEvent): number {
+    return ArrayExt.findFirstIndex(
+      nodes,
+      node =>
+        ElementExt.hitTest(node, event.clientX, event.clientY) ||
+        event.target === node
+    );
+  }
+
+  handleEvent(event: Event): void {
+    switch (event.type) {
+      case 'lm-dragenter':
+        this._eventDragEnter(event as IDragEvent);
+        break;
+      case 'lm-dragover':
+        this._eventDragOver(event as IDragEvent);
+        break;
+      case 'lm-drop':
+        this._eventDrop(event as IDragEvent);
+        break;
+      default:
+        super.handleEvent(event);
+        break;
     }
   }
 }
