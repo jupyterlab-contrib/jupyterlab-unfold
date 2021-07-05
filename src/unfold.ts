@@ -218,24 +218,17 @@ export class DirTreeListing extends DirListing {
     return this._model;
   }
 
-  protected handleOpen(item: Contents.IModel): void {
-    if (item.type === 'directory') {
-      this.model.toggle(item.path);
-    } else {
-      super.handleOpen(item);
-    }
-  }
-
   protected async handleFileSelect(event: MouseEvent): Promise<void> {
     super.handleFileSelect(event);
 
     if (Object.keys(this.selection).length === 1) {
       const selection = Object.keys(this.selection)[0];
 
-      const isDirectory = await this.model.isDirectory(selection);
+      const entry = await this.model.getEntry(selection);
 
-      if (isDirectory) {
+      if (entry.type === 'directory') {
         this.model.path = '/' + selection;
+        this.model.toggle(entry.path);
       } else {
         this.model.path = '/' + PathExt.dirname(selection);
       }
@@ -407,10 +400,8 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
     this._path = value;
   }
 
-  async isDirectory(path: string): Promise<boolean> {
-    const entry = await this.contentManager.get(path);
-
-    return entry.type === 'directory';
+  async getEntry(path: string): Promise<Contents.IModel> {
+    return await this.contentManager.get(path);
   }
 
   /**
