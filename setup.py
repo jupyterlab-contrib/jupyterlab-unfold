@@ -2,6 +2,7 @@
 jupyterlab-unfold setup
 """
 import json
+import sys
 from pathlib import Path
 
 import setuptools
@@ -42,10 +43,7 @@ setup_args = dict(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
-    install_requires=[
-        "jupyter_server>=1.6,<2",
-        "jupyterlab>=3.1.0-alpha.10"
-    ],
+    install_requires=["jupyterlab>=3.1.0"],
     zip_safe=False,
     include_package_data=True,
     python_requires=">=3.6",
@@ -60,6 +58,10 @@ setup_args = dict(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Framework :: Jupyter",
+        "Framework :: Jupyter :: JupyterLab",
+        "Framework :: Jupyter :: JupyterLab :: 3",
+        "Framework :: Jupyter :: JupyterLab :: Extensions",
+        "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt",
     ],
 )
 
@@ -75,7 +77,11 @@ try:
     setup_args['cmdclass'] = wrap_installers(post_develop=post_develop, ensured_targets=ensured_targets)
     setup_args['data_files'] = get_data_files(data_files_spec)
 except ImportError as e:
-    pass
+    import logging
+    logging.basicConfig(format="%(levelname)s: %(message)s")
+    logging.warning("Build tool `jupyter-packaging` is missing. Install it with pip or conda.")
+    if not ("--name" in sys.argv or "--version" in sys.argv):
+        raise e
 
 if __name__ == "__main__":
     setuptools.setup(**setup_args)
