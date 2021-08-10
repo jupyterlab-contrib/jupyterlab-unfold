@@ -29,10 +29,6 @@ jobs:
     - name: Install Mamba
       uses: mamba-org/provision-with-micromamba@main
 
-    # TODO Use mamba once we rely on jupyterlab 3.1 from conda-forge
-    - name: Install dependencies
-      run: pip install jupyterlab==3.1.0-alpha.12
-
     - name: Install jupyterlab-unfold
       run: pip install .
 
