@@ -70,11 +70,12 @@ const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
         app
       });
 
-      setting.changed.connect(() => {
-        const singleClickToUnfold = setting.get('singleClickToUnfold')
+      widget.listing.singleClickToUnfold = setting.get('singleClickToUnfold')
           .composite as boolean;
 
-        widget.listing.singleClickToUnfold = singleClickToUnfold;
+      setting.changed.connect(() => {
+        widget.listing.singleClickToUnfold = setting.get('singleClickToUnfold')
+          .composite as boolean;
       });
 
       // Track the newly created file browser.
