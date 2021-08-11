@@ -395,7 +395,7 @@ export class DirTreeListing extends DirListing {
     }
   }
 
-  private _singleClickToUnfold = false;
+  private _singleClickToUnfold = true;
 }
 
 /**

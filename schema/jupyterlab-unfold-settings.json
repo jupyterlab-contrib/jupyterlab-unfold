@@ -7,7 +7,7 @@
         "type": "boolean",
         "title": "Single Click To Unfold",
         "description": "Whether a single click triggers an (un)fold.",
-        "default": false
+        "default": true
       }
     }
 }
