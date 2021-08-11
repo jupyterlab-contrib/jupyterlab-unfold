@@ -45,9 +45,6 @@ const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
   ): Promise<IFileBrowserFactory> => {
     const setting = await settings.load(SETTINGS_ID);
 
-    const singleClickToUnfold = setting.get('singleClickToUnfold')
-      .composite as boolean;
-
     const tracker = new WidgetTracker<FileTreeBrowser>({ namespace });
     const createFileBrowser = (
       id: string,
@@ -70,8 +67,14 @@ const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
         model,
         restore: true,
         translator,
-        app,
-        singleClickToUnfold
+        app
+      });
+
+      setting.changed.connect(() => {
+        const singleClickToUnfold = setting.get('singleClickToUnfold')
+          .composite as boolean;
+
+        widget.listing.singleClickToUnfold = singleClickToUnfold;
       });
 
       // Track the newly created file browser.

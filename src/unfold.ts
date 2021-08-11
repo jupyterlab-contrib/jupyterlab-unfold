@@ -67,11 +67,6 @@ export namespace FileTreeBrowser {
      * The JupyterFrontEnd app.
      */
     app: JupyterFrontEnd;
-
-    /**
-     * Should the filetree be (un)fold on single-click or double-click
-     */
-    singleClickToUnfold: boolean;
   }
 }
 
@@ -206,6 +201,10 @@ export class DirTreeListing extends DirListing {
     super({ ...options, renderer: new FileTreeRenderer(options.model) });
   }
 
+  set singleClickToUnfold(value: boolean) {
+    this._singleClickToUnfold = value;
+  }
+
   get headerNode(): HTMLElement {
     return document.createElement('div');
   }
@@ -231,7 +230,7 @@ export class DirTreeListing extends DirListing {
       if (entry.type === 'directory') {
         this.model.path = '/' + entry.path;
 
-        if (this.singleClickToUnfold) {
+        if (this._singleClickToUnfold) {
           this.model.toggle(entry.path);
         }
       } else {
@@ -393,7 +392,7 @@ export class DirTreeListing extends DirListing {
     }
   }
 
-  singleClickToUnfold = false;
+  private _singleClickToUnfold = false;
 }
 
 /**
@@ -615,8 +614,6 @@ export class FileTreeBrowser extends FileBrowser {
     this.layout.removeWidget(this.crumbs);
 
     this.showLastModifiedColumn = false;
-
-    this.listing.singleClickToUnfold = options.singleClickToUnfold;
   }
 
   get showLastModifiedColumn(): boolean {
