@@ -242,7 +242,7 @@ export class DirTreeListing extends DirListing {
   private async _eventDblClick(event: MouseEvent): Promise<void> {
     const entry = this.modelForClick(event);
 
-    if (entry?.type === 'directory') {
+    if (entry?.type === 'directory' && !this._singleClickToUnfold) {
       this.model.toggle(entry.path);
     }
   }
