@@ -201,6 +201,10 @@ export class DirTreeListing extends DirListing {
     super({ ...options, renderer: new FileTreeRenderer(options.model) });
   }
 
+  set singleClickToUnfold(value: boolean) {
+    this._singleClickToUnfold = value;
+  }
+
   get headerNode(): HTMLElement {
     return document.createElement('div');
   }
@@ -220,18 +224,29 @@ export class DirTreeListing extends DirListing {
 
   protected async handleFileSelect(event: MouseEvent): Promise<void> {
     super.handleFileSelect(event);
+    const entry = this.modelForClick(event);
 
-    if (Object.keys(this.selection).length === 1) {
-      const selection = Object.keys(this.selection)[0];
-
-      const entry = await this.model.getEntry(selection);
-
+    if (entry) {
       if (entry.type === 'directory') {
-        this.model.path = '/' + selection;
-        this.model.toggle(entry.path);
+        this.model.path = '/' + entry.path;
+
+        if (
+          this._singleClickToUnfold &&
+          Object.keys(this.selection).length === 1
+        ) {
+          this.model.toggle(entry.path);
+        }
       } else {
-        this.model.path = '/' + PathExt.dirname(selection);
+        this.model.path = '/' + PathExt.dirname(entry.path);
       }
+    }
+  }
+
+  private async _eventDblClick(event: MouseEvent): Promise<void> {
+    const entry = this.modelForClick(event);
+
+    if (entry?.type === 'directory' && !this._singleClickToUnfold) {
+      this.model.toggle(entry.path);
     }
   }
 
@@ -362,6 +377,9 @@ export class DirTreeListing extends DirListing {
 
   handleEvent(event: Event): void {
     switch (event.type) {
+      case 'dblclick':
+        this._eventDblClick(event as MouseEvent);
+        break;
       case 'lm-dragenter':
         this._eventDragEnter(event as IDragEvent);
         break;
@@ -376,6 +394,8 @@ export class DirTreeListing extends DirListing {
         break;
     }
   }
+
+  private _singleClickToUnfold = false;
 }
 
 /**
@@ -398,10 +418,6 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
 
   set path(value: string) {
     this._path = value;
-  }
-
-  async getEntry(path: string): Promise<Contents.IModel> {
-    return await this.contentManager.get(path);
   }
 
   /**
@@ -625,4 +641,6 @@ export class FileTreeBrowser extends FileBrowser {
   }
 
   model: FilterFileTreeBrowserModel;
+
+  listing: DirTreeListing;
 }

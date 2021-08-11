@@ -11,6 +11,8 @@ import { addIcon } from '@jupyterlab/ui-components';
 
 import { WidgetTracker, ToolbarButton } from '@jupyterlab/apputils';
 
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
+
 import { ITranslator } from '@jupyterlab/translation';
 
 import { IStateDB } from '@jupyterlab/statedb';
@@ -22,6 +24,8 @@ import { FileTreeBrowser, FilterFileTreeBrowserModel } from './unfold';
  */
 const EXTENSION_ID = 'jupyterlab-unfold';
 
+const SETTINGS_ID = 'jupyterlab-unfold:jupyterlab-unfold-settings';
+
 /**
  * The file browser namespace token.
  */
@@ -30,14 +34,17 @@ const namespace = 'filebrowser';
 const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
   id: EXTENSION_ID,
   provides: IFileBrowserFactory,
-  requires: [IDocumentManager, ITranslator],
+  requires: [IDocumentManager, ITranslator, ISettingRegistry],
   optional: [IStateDB],
   activate: async (
     app: JupyterFrontEnd,
     docManager: IDocumentManager,
     translator: ITranslator,
+    settings: ISettingRegistry,
     state: IStateDB | null
   ): Promise<IFileBrowserFactory> => {
+    const setting = await settings.load(SETTINGS_ID);
+
     const tracker = new WidgetTracker<FileTreeBrowser>({ namespace });
     const createFileBrowser = (
       id: string,
@@ -61,6 +68,14 @@ const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
         restore: true,
         translator,
         app
+      });
+
+      widget.listing.singleClickToUnfold = setting.get('singleClickToUnfold')
+        .composite as boolean;
+
+      setting.changed.connect(() => {
+        widget.listing.singleClickToUnfold = setting.get('singleClickToUnfold')
+          .composite as boolean;
       });
 
       // Track the newly created file browser.
