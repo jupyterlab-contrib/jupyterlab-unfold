@@ -230,7 +230,10 @@ export class DirTreeListing extends DirListing {
       if (entry.type === 'directory') {
         this.model.path = '/' + entry.path;
 
-        if (this._singleClickToUnfold && Object.keys(this.selection).length === 1) {
+        if (
+          this._singleClickToUnfold &&
+          Object.keys(this.selection).length === 1
+        ) {
           this.model.toggle(entry.path);
         }
       } else {

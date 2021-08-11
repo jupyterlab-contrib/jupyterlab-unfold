@@ -71,7 +71,7 @@ const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
       });
 
       widget.listing.singleClickToUnfold = setting.get('singleClickToUnfold')
-          .composite as boolean;
+        .composite as boolean;
 
       setting.changed.connect(() => {
         widget.listing.singleClickToUnfold = setting.get('singleClickToUnfold')
