@@ -6,7 +6,7 @@ on:
     - master
   pull_request:
     branches:
-    - master
+    - '*'
 
 defaults:
   run:
@@ -41,4 +41,6 @@ jobs:
         check-manifest -v
 
     - name: Test the extension
+      run: |
+        set -eux
         yarn test
