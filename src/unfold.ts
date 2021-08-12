@@ -12,7 +12,7 @@ import { DOMUtils, showErrorMessage } from '@jupyterlab/apputils';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
-import { Contents, ContentsManager } from '@jupyterlab/services';
+import { Contents } from '@jupyterlab/services';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
@@ -92,12 +92,7 @@ export namespace FilterFileTreeBrowserModel {
   /**
    * An options object for initializing a file tree listing widget.
    */
-  export interface IOptions extends FilterFileBrowserModel.IOptions {
-    /**
-     * The JupyterFrontEnd app.
-     */
-    app: JupyterFrontEnd;
-  }
+  export type IOptions = FilterFileBrowserModel.IOptions;
 }
 
 /**
@@ -161,7 +156,7 @@ export class FileTreeRenderer extends DirListing.Renderer {
   ): void {
     super.updateItemNode(node, model, fileType, translator, hiddenColumns);
 
-    if (model.type === 'directory' && this.model.isOpen(model)) {
+    if (model.type === 'directory' && this.model.isOpen(model.path)) {
       const iconContainer = DOMUtils.findElement(
         node,
         'jp-DirListing-itemIcon'
@@ -220,26 +215,6 @@ export class DirTreeListing extends DirListing {
   get model(): FilterFileTreeBrowserModel {
     // @ts-ignore
     return this._model;
-  }
-
-  protected async handleFileSelect(event: MouseEvent): Promise<void> {
-    super.handleFileSelect(event);
-    const entry = this.modelForClick(event);
-
-    if (entry) {
-      if (entry.type === 'directory') {
-        this.model.path = '/' + entry.path;
-
-        if (
-          this._singleClickToUnfold &&
-          Object.keys(this.selection).length === 1
-        ) {
-          this.model.toggle(entry.path);
-        }
-      } else {
-        this.model.path = '/' + PathExt.dirname(entry.path);
-      }
-    }
   }
 
   private async _eventDblClick(event: MouseEvent): Promise<void> {
@@ -389,9 +364,42 @@ export class DirTreeListing extends DirListing {
       case 'lm-drop':
         this._eventDrop(event as IDragEvent);
         break;
+      case 'mousedown':
+        super.handleEvent(event);
+        this._changeModelPath(event as MouseEvent);
+        break;
       default:
         super.handleEvent(event);
         break;
+    }
+  }
+
+  /**
+   * Change the model path on each 'mousedown' event
+   *
+   * Note: This allow to change the path to the root when the user
+   * is clicking on an empty space.
+   */
+  private _changeModelPath(event: MouseEvent): void {
+    const entry = this.modelForClick(event);
+
+    if (entry) {
+      if (entry.type === 'directory') {
+        this.model.path = '/' + entry.path;
+
+        if (
+          this._singleClickToUnfold &&
+          (event.button === 0 || // State toggled on main button
+            (event.button === 2 && !this.model.isOpen(entry.path)) || // State toggled on right click if folder is closed
+            event.type === 'click') // State toggled on click and double click
+        ) {
+          this.model.toggle(entry.path);
+        }
+      } else {
+        this.model.path = '/' + PathExt.dirname(entry.path);
+      }
+    } else {
+      this.model.path = this.model.rootPath;
     }
   }
 
@@ -405,8 +413,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
   constructor(options: FilterFileTreeBrowserModel.IOptions) {
     super(options);
 
-    this.app = options.app;
-    this.contentManager = this.app.serviceManager.contents;
+    this.contentManager = this.manager.services.contents;
     this.basePath = '.';
 
     this._savedState = options.state || null;
@@ -523,15 +530,15 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
   }
 
   /**
-   * Check whether a directory entry is open or not.
+   * Check whether a directory path is opened or not.
    *
-   * @param model - The given entry.
+   * @param path - The given path
    *
-   * @returns Whether the directory is open or not.
+   * @returns Whether the directory is opened or not.
    *
    */
-  isOpen(model: Contents.IModel): boolean {
-    return !!this.openState[model.path];
+  isOpen(path: string): boolean {
+    return !!this.openState[path];
   }
 
   private async fetchContent(
@@ -555,7 +562,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
 
       const isOpen =
         (pathToUpdate && pathToUpdate.startsWith('/' + entry.path)) ||
-        this.isOpen(entry);
+        this.isOpen(entry.path);
 
       if (isOpen) {
         const subEntryContent = await this.fetchContent(
@@ -602,8 +609,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
   private _stateKey: string | null = null;
   private _path = '.';
   private basePath: string;
-  private contentManager: ContentsManager;
-  private app: JupyterFrontEnd;
+  private contentManager: Contents.IManager;
   private openState: { [path: string]: boolean } = {};
 }
 
