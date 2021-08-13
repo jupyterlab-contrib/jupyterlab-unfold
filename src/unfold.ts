@@ -86,16 +86,6 @@ export namespace DirTreeListing {
 }
 
 /**
- * The namespace for the `FilterFileTreeBrowserModel` class statics.
- */
-export namespace FilterFileTreeBrowserModel {
-  /**
-   * An options object for initializing a file tree listing widget.
-   */
-  export type IOptions = FilterFileBrowserModel.IOptions;
-}
-
-/**
  * The namespace for the `FileTreeBrowser` class statics.
  */
 export namespace FileTreeBrowser {
@@ -410,7 +400,7 @@ export class DirTreeListing extends DirListing {
  * Filetree browser model with optional filter on element.
  */
 export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
-  constructor(options: FilterFileTreeBrowserModel.IOptions) {
+  constructor(options: FilterFileBrowserModel.IOptions) {
     super(options);
 
     this.contentManager = this.manager.services.contents;
