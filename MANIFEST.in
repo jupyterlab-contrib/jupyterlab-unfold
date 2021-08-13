@@ -8,8 +8,8 @@ include install.json
 include ts*.json
 include yarn.lock
 
-images/screenshot.png
-environment.yml
+include images/screenshot.png
+include environment.yml
 
 graft jupyterlab-unfold/labextension
 
