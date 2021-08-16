@@ -331,6 +331,39 @@ export class DirTreeListing extends DirListing {
     });
   }
 
+  /**
+   * Handle 'mousedown' event
+   *
+   * Note: This allow to change the path to the root and clear selection when the user
+   * is clicking on an empty space.
+   */
+  private _eventMouseDown(event: MouseEvent): void {
+    const entry = this.modelForClick(event);
+
+    if (entry) {
+      if (entry.type === 'directory') {
+        this.model.path = '/' + entry.path;
+
+        if (
+          this._singleClickToUnfold &&
+          (event.button === 0 || // State toggled on main button
+            (event.button === 2 && !this.model.isOpen(entry.path)) || // State toggled on right click if folder is closed
+            event.type === 'click') // State toggled on click and double click
+        ) {
+          this.model.toggle(entry.path);
+        }
+      } else {
+        this.model.path = '/' + PathExt.dirname(entry.path);
+      }
+    } else {
+      // TODO Upstream this logic to JupyterLab (clearing selection when clicking the empty space)?
+      this.clearSelectedItems();
+      this.update();
+
+      this.model.path = this.model.rootPath;
+    }
+  }
+
   private _hitTestNodes(nodes: HTMLElement[], event: MouseEvent): number {
     return ArrayExt.findFirstIndex(
       nodes,
@@ -356,40 +389,11 @@ export class DirTreeListing extends DirListing {
         break;
       case 'mousedown':
         super.handleEvent(event);
-        this._changeModelPath(event as MouseEvent);
+        this._eventMouseDown(event as MouseEvent);
         break;
       default:
         super.handleEvent(event);
         break;
-    }
-  }
-
-  /**
-   * Change the model path on each 'mousedown' event
-   *
-   * Note: This allow to change the path to the root when the user
-   * is clicking on an empty space.
-   */
-  private _changeModelPath(event: MouseEvent): void {
-    const entry = this.modelForClick(event);
-
-    if (entry) {
-      if (entry.type === 'directory') {
-        this.model.path = '/' + entry.path;
-
-        if (
-          this._singleClickToUnfold &&
-          (event.button === 0 || // State toggled on main button
-            (event.button === 2 && !this.model.isOpen(entry.path)) || // State toggled on right click if folder is closed
-            event.type === 'click') // State toggled on click and double click
-        ) {
-          this.model.toggle(entry.path);
-        }
-      } else {
-        this.model.path = '/' + PathExt.dirname(entry.path);
-      }
-    } else {
-      this.model.path = this.model.rootPath;
     }
   }
 
