@@ -56,7 +56,6 @@ const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
         manager: docManager,
         driveName: options.driveName || '',
         refreshInterval: options.refreshInterval,
-        app,
         state:
           options.state === null
             ? undefined

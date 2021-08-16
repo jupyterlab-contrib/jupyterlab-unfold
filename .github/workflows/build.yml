@@ -6,7 +6,7 @@ on:
     - master
   pull_request:
     branches:
-    - master
+    - '*'
 
 defaults:
   run:
@@ -14,13 +14,7 @@ defaults:
 
 jobs:
   run:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        python-version: [3.8]
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
@@ -29,15 +23,19 @@ jobs:
     - name: Install Mamba
       uses: mamba-org/provision-with-micromamba@main
 
-    - name: Install jupyterlab-unfold
-      run: pip install .
+    - name: Build the extension
+      run: |
+        set -eux
+        yarn
+        yarn run eslint:check
+        python -m pip install .
 
-    - name: Check installation files
+    - name: Check installation
       run: |
         test -d $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-unfold
         test -f $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-unfold/package.json
+        
+        jupyter labextension list 2>&1 | grep -ie "jupyterlab-unfold.*OK"
+        python -m jupyterlab.browser_check
 
-    - name: Lint check
-      run: |
-        yarn install
-        yarn eslint:check
+        check-manifest -v
