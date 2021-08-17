@@ -5,16 +5,24 @@ services:
     container_name: jupyterlab
     build:
       context: .
-    command: ['jlpm', 'run', 'start-jlab']
-    environment:
-      PYTHONPATH: /opt/serverextension
+    command: [
+        'jupyter',
+        'lab',
+        # Set working directory as empty directory - no modified time displayed
+        '--notebook-dir=./work',
+        '--ServerApp.token=',
+        '--ServerApp.password=',
+        '--ServerApp.disable_check_xsrf=True',
+        '--LabServerApp.extra_labextensions_path=/opt/labextension',
+        # Workaround bug: https://github.com/ipython/traitlets/issues/668
+        '--LabServerApp.extra_labextensions_path=/dev/null'
+      ]
     networks:
       - frontend
     ports:
       - 8888:8888
     volumes:
       - ../../jupyterlab-unfold/labextension:/opt/labextension/jupyterlab-unfold
-      - ../../jupyterlab-unfold:/opt/serverextension
 
   e2e:
     # docker must match playwright version in ui-tests/package.json
@@ -25,7 +33,7 @@ services:
         'jupyterlab:8888',
         '--strict',
         '--timeout=60',
-        '--',
+        '--'
       ]
     command: ['npx', 'playwright', 'test']
     environment:
@@ -37,9 +45,10 @@ services:
       - frontend
     depends_on:
       - lab
+    user: pwuser
     volumes:
-      - ..:/tmp/e2e-tests
-      - ../ui-tests:/opt/ui-tests
+      - .:/tmp/e2e-tests
+      - ..:/opt/ui-tests
     working_dir: /opt/ui-tests
 
 networks:

@@ -19,7 +19,7 @@ jlpm run build:prod
 2. Execute the docker stack in the example folder:
 
 ```
-docker-compose -f ./docker/docker-compose.yml build
+docker-compose -f ./docker/docker-compose.yml build --no-cache
 docker-compose -f ./docker/docker-compose.yml run --rm e2e
 docker-compose -f ./docker/docker-compose.yml down
 ```
@@ -64,7 +64,7 @@ jlpm run build:prod
 **Using docker**
 
 ```
-docker-compose -f ../docker/docker-compose.yml run --rm -p 8888:8888 lab
+docker-compose -f ./docker/docker-compose.yml run --rm -p 8888:8888 lab
 ```
 
 **Using local installation**
@@ -98,7 +98,7 @@ jlpm run build:prod
 **Using docker**
 
 ```
-docker-compose -f ../docker/docker-compose.yml run --rm -p 8888:8888 lab
+docker-compose -f ./docker/docker-compose.yml run --rm -p 8888:8888 lab
 ```
 
 **Using local installation**
