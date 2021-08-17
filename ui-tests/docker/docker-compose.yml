@@ -22,7 +22,7 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ../../jupyterlab-unfold/labextension:/opt/labextension/jupyterlab-unfold
+      - ../../jupyterlab-unfold/labextension:/opt/labextension/jupyterlab-unfold:z
 
   e2e:
     # docker must match playwright version in ui-tests/package.json
@@ -47,8 +47,8 @@ services:
       - lab
     user: pwuser
     volumes:
-      - .:/tmp/e2e-tests
-      - ..:/opt/ui-tests
+      - .:/tmp/e2e-tests:z
+      - ..:/opt/ui-tests:z
     working_dir: /opt/ui-tests
 
 networks:
