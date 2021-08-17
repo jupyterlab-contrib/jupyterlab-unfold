@@ -19,9 +19,9 @@ jlpm run build:prod
 2. Execute the docker stack in the example folder:
 
 ```
-docker-compose -f ../docker/docker-compose.yml build
-docker-compose -f ../docker/docker-compose.yml run --rm e2e
-docker-compose -f ../docker/docker-compose.yml down
+docker-compose -f ./docker/docker-compose.yml build
+docker-compose -f ./docker/docker-compose.yml run --rm e2e
+docker-compose -f ./docker/docker-compose.yml down
 ```
 
 ## Test locally
