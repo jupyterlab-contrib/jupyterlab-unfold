@@ -1,11 +1,13 @@
 import { PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
-  timeout: 60000,
+  timeout: 20000,
   use: {
     // Browser options
     // headless: false,
-    // slowMo: 500,
+    launchOptions: {
+      slowMo: 400,
+    },
 
     // Context options
     viewport: { width: 1280, height: 720 },
