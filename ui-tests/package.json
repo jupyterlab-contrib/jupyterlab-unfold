@@ -1,9 +1,9 @@
 {
-  "name": "@jupyterlab-examples/hello-world-tests",
+  "name": "jupyterlab-unfold-tests",
   "version": "0.1.0",
-  "description": "Integration test for hello-world example",
-  "repository": "https://github.com/jupyterlab/extension-examples",
-  "author": "Project Jupyter Contributors",
+  "description": "UI tests",
+  "repository": "https://github.com/martinRenou/jupyterlab-unfold",
+  "author": "Martin Renou",
   "license": "BSD-3-Clause",
   "private": true,
   "scripts": {
