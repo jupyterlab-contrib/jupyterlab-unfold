@@ -62,4 +62,5 @@ jobs:
         # Print jupyterlab logs before removing the containers using the container name set in docker-compose file
         docker logs jupyterlab
         docker-compose -f ./docker/docker-compose.yml down
+      working-directory: ui-tests
 
