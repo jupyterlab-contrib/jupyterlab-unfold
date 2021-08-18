@@ -34,8 +34,17 @@ jobs:
       run: |
         test -d $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-unfold
         test -f $CONDA_PREFIX/share/jupyter/labextensions/jupyterlab-unfold/package.json
-        
+
         jupyter labextension list 2>&1 | grep -ie "jupyterlab-unfold.*OK"
         python -m jupyterlab.browser_check
 
         check-manifest -v
+
+    - name: UI tests
+      run: |
+        yarn install
+
+        docker-compose -f ./docker/docker-compose.yml build --no-cache
+        docker-compose -f ./docker/docker-compose.yml run --rm e2e
+        docker-compose -f ./docker/docker-compose.yml down
+      working-directory: ui-tests
