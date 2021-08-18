@@ -13,10 +13,9 @@ To execute integration tests, you have two options:
 
 ```
 jlpm install
-jlpm run build:prod
 ```
 
-2. Execute the docker stack in the example folder:
+2. Execute the docker stack in the ui-tests folder:
 
 ```
 docker-compose -f ./docker/docker-compose.yml build --no-cache
