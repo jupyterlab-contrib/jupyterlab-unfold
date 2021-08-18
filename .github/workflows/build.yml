@@ -43,6 +43,14 @@ jobs:
     - name: UI tests
       run: |
         docker-compose -f ./docker/docker-compose.yml build --no-cache
+      working-directory: ui-tests
+
+    - name: UI tests
+      run: |
         docker-compose -f ./docker/docker-compose.yml run --rm e2e
+      working-directory: ui-tests
+
+    - name: UI tests
+      run: |
         docker-compose -f ./docker/docker-compose.yml down
       working-directory: ui-tests
