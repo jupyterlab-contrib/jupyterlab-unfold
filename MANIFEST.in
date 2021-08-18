@@ -21,6 +21,8 @@ prune **/node_modules
 prune lib
 prune binder
 
+exclude ui-tests
+
 # Patterns to exclude from any directory
 global-exclude *~
 global-exclude *.pyc
