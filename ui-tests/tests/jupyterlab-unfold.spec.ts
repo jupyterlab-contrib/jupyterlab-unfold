@@ -3,6 +3,11 @@ import { test, expect } from '@playwright/test';
 const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 const TREE_LOCATOR = '.jp-DirListing-content';
 
+// This seems to be more robust than the page.locator('text=name')
+function item(name: string) {
+  return `.jp-DirListing-item[title^="Name: ${name}"]`;
+}
+
 
 test('should unfold', async ({ page }) => {
   await page.goto(`${TARGET_URL}/lab`);
@@ -16,22 +21,22 @@ test('should unfold', async ({ page }) => {
     await page.locator(TREE_LOCATOR).screenshot()
   ).toMatchSnapshot('first-render.png');
 
-  await page.click('text=dir1');
-  await page.waitForSelector('text=dir2');
+  await page.click(item('dir1'));
+  await page.waitForSelector(item('dir2'));
 
   expect(
     await page.locator(TREE_LOCATOR).screenshot()
   ).toMatchSnapshot('unfold-dir1.png');
 
-  await page.click('text=dir2');
-  await page.waitForSelector('text=dir3');
+  await page.click(item('dir2'));
+  await page.waitForSelector(item('dir3'));
 
   expect(
     await page.locator(TREE_LOCATOR).screenshot()
   ).toMatchSnapshot('unfold-dir2.png');
 
-  await page.click('text=dir3');
-  await page.waitForSelector('text=file211.txt');
+  await page.click(item('dir3'));
+  await page.waitForSelector(item('file211.txt'));
 
   expect(
     await page.locator(TREE_LOCATOR).screenshot()
