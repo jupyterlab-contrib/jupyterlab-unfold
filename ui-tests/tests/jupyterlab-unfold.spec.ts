@@ -9,69 +9,70 @@ function item(name: string) {
   return `.jp-DirListing-item[title^="Name: ${name}"]`;
 }
 
+test.describe.serial('jupyterlab-unfold', () => {
+  test('should unfold', async ({ page }) => {
+    await page.goto(`${TARGET_URL}/lab`);
+    await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+    await page.waitForSelector('div[role="main"] >> text=Launcher');
 
-test('should unfold', async ({ page }) => {
-  await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('div[role="main"] >> text=Launcher');
+    // Let time for JupyterLab to finish rendering
+    await page.waitForTimeout(2000);
 
-  // Let time for JupyterLab to finish rendering
-  await page.waitForTimeout(2000);
+    expect(
+      await page.locator(TREE_LOCATOR).screenshot()
+    ).toMatchSnapshot('first-render.png');
 
-  expect(
-    await page.locator(TREE_LOCATOR).screenshot()
-  ).toMatchSnapshot('first-render.png');
+    await page.click(item('dir1'));
+    await page.waitForSelector(item('dir2'));
 
-  await page.click(item('dir1'));
-  await page.waitForSelector(item('dir2'));
+    expect(
+      await page.locator(TREE_LOCATOR).screenshot()
+    ).toMatchSnapshot('unfold-dir1.png');
 
-  expect(
-    await page.locator(TREE_LOCATOR).screenshot()
-  ).toMatchSnapshot('unfold-dir1.png');
+    await page.click(item('dir2'));
+    await page.waitForSelector(item('dir3'));
 
-  await page.click(item('dir2'));
-  await page.waitForSelector(item('dir3'));
+    expect(
+      await page.locator(TREE_LOCATOR).screenshot()
+    ).toMatchSnapshot('unfold-dir2.png');
 
-  expect(
-    await page.locator(TREE_LOCATOR).screenshot()
-  ).toMatchSnapshot('unfold-dir2.png');
+    await page.click(item('dir3'));
+    await page.waitForSelector(item('file211.txt'));
 
-  await page.click(item('dir3'));
-  await page.waitForSelector(item('file211.txt'));
+    expect(
+      await page.locator(TREE_LOCATOR).screenshot()
+    ).toMatchSnapshot('unfold-dir3.png');
 
-  expect(
-    await page.locator(TREE_LOCATOR).screenshot()
-  ).toMatchSnapshot('unfold-dir3.png');
+    await page.click(item('dir2'));
+    await page.waitForSelector(item('dir3'), { state: 'detached' });
 
-  await page.click(item('dir2'));
-  await page.waitForSelector(item('dir3'), { state: 'detached' });
+    expect(
+      await page.locator(TREE_LOCATOR).screenshot()
+    ).toMatchSnapshot('fold-dir2.png');
 
-  expect(
-    await page.locator(TREE_LOCATOR).screenshot()
-  ).toMatchSnapshot('fold-dir2.png');
+    await page.click(item('dir2'));
+    await page.waitForSelector(item('dir3'));
 
-  await page.click(item('dir2'));
-  await page.waitForSelector(item('dir3'));
-
-  expect(
-    await page.locator(TREE_LOCATOR).screenshot()
-  ).toMatchSnapshot('unfold-dir2-2.png');
-});
+    expect(
+      await page.locator(TREE_LOCATOR).screenshot()
+    ).toMatchSnapshot('unfold-dir2-2.png');
+  });
 
 
-test('should open file', async ({ page }) => {
-  await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('div[role="main"] >> text=Launcher');
+  test('should open file', async ({ page }) => {
+    await page.goto(`${TARGET_URL}/lab`);
+    await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+    await page.waitForSelector('div[role="main"] >> text=Launcher');
 
-  // Let time for JupyterLab to finish rendering
-  await page.waitForTimeout(2000);
+    // Let time for JupyterLab to finish rendering
+    await page.waitForTimeout(2000);
 
-  await page.dblclick(item('file211.txt'));
-  // TODO Use something more reliable
-  await page.waitForTimeout(1000);
+    await page.dblclick(item('file211.txt'));
+    // TODO Use something more reliable
+    await page.waitForTimeout(1000);
 
-  expect(
-    await page.locator(TABS_LOCATOR).screenshot()
-  ).toMatchSnapshot('open-file211.png');
+    expect(
+      await page.locator(TABS_LOCATOR).screenshot()
+    ).toMatchSnapshot('open-file211.png');
+  });
 });
