@@ -42,8 +42,6 @@ jobs:
 
     - name: UI tests
       run: |
-        yarn install
-
         docker-compose -f ./docker/docker-compose.yml build --no-cache
         docker-compose -f ./docker/docker-compose.yml run --rm e2e
         docker-compose -f ./docker/docker-compose.yml down
