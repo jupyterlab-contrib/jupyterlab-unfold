@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 const TREE_LOCATOR = '.jp-DirListing-content';
+const TABS_LOCATOR = '.lm-DockPanel-tabBar';
 
 // This seems to be more robust than the page.locator('text=name')
 function item(name: string) {
@@ -58,7 +59,7 @@ test('should unfold', async ({ page }) => {
 });
 
 
-test('should work', async ({ page }) => {
+test('should open file', async ({ page }) => {
   await page.goto(`${TARGET_URL}/lab`);
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
   await page.waitForSelector('div[role="main"] >> text=Launcher');
@@ -66,7 +67,11 @@ test('should work', async ({ page }) => {
   // Let time for JupyterLab to finish rendering
   await page.waitForTimeout(2000);
 
+  await page.dblclick(item('file211.txt'));
+  // TODO Use something more reliable
+  await page.waitForTimeout(1000);
+
   expect(
-    await page.locator(TREE_LOCATOR).screenshot()
-  ).toMatchSnapshot('second-render.png');
+    await page.locator(TABS_LOCATOR).screenshot()
+  ).toMatchSnapshot('open-file211.png');
 });
