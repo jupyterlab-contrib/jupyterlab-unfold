@@ -41,6 +41,20 @@ test('should unfold', async ({ page }) => {
   expect(
     await page.locator(TREE_LOCATOR).screenshot()
   ).toMatchSnapshot('unfold-dir3.png');
+
+  await page.click(item('dir2'));
+  await page.waitForSelector(item('dir3'), { state: 'detached' });
+
+  expect(
+    await page.locator(TREE_LOCATOR).screenshot()
+  ).toMatchSnapshot('fold-dir2.png');
+
+  await page.click(item('dir2'));
+  await page.waitForSelector(item('dir3'));
+
+  expect(
+    await page.locator(TREE_LOCATOR).screenshot()
+  ).toMatchSnapshot('unfold-dir2-2.png');
 });
 
 
