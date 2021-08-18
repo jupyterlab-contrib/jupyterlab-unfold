@@ -45,7 +45,6 @@ services:
       - frontend
     depends_on:
       - lab
-    user: pwuser
     volumes:
       - .:/tmp/e2e-tests
       - ..:/opt/ui-tests
