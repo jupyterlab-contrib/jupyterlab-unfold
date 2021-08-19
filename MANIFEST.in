@@ -20,6 +20,7 @@ include schema/jupyterlab-unfold-settings.json
 prune **/node_modules
 prune lib
 prune binder
+prune ui-tests
 
 # Patterns to exclude from any directory
 global-exclude *~
