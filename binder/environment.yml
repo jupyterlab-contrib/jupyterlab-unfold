@@ -8,5 +8,3 @@ dependencies:
   - yarn
   - pip
   - wheel
-  - pip:
-    - jupyterlab ==3.1.0-alpha.10
