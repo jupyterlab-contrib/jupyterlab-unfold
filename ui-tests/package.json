@@ -2,7 +2,7 @@
   "name": "jupyterlab-unfold-tests",
   "version": "0.1.0",
   "description": "UI tests",
-  "repository": "https://github.com/martinRenou/jupyterlab-unfold",
+  "repository": "https://github.com/jupyterlab-contrib/jupyterlab-unfold",
   "author": "Martin Renou",
   "license": "BSD-3-Clause",
   "private": true,

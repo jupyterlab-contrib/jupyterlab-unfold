@@ -7,9 +7,9 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/martinRenou/jupyterlab-unfold",
+  "homepage": "https://github.com/jupyterlab-contrib/jupyterlab-unfold",
   "bugs": {
-    "url": "https://github.com/martinRenou/jupyterlab-unfold/issues"
+    "url": "https://github.com/jupyterlab-contrib/jupyterlab-unfold/issues"
   },
   "license": "BSD-3-Clause",
   "author": {
@@ -31,7 +31,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/martinRenou/jupyterlab-unfold.git"
+    "url": "https://github.com/jupyterlab-contrib/jupyterlab-unfold.git"
   },
   "scripts": {
     "build": "jlpm run build:lib && jlpm run build:labextension:dev",
