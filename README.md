@@ -1,10 +1,14 @@
 # jupyterlab-unfold
 
-![Github Actions Status](https://github.com/jupyterlab-contrib/jupyterlab-unfold/actions/workflows/build.yml/badge.svg?branch=master)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab-contrib/jupyterlab-unfold/HEAD?urlpath=lab)
+[![Extension status](https://img.shields.io/badge/status-ready-success "ready to be used")](https://jupyterlab-contrib.github.io/)
+[![Github Actions Status](https://github.com/jupyterlab-contrib/jupyterlab-unfold/actions/workflows/build.yml/badge.svg)](https://github.com/jupyterlab-contrib/jupyterlab-unfold/actions?query=workflow%3ATests)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab-contrib/jupyterlab-unfold/master?urlpath=lab)
+[![PyPI](https://img.shields.io/pypi/v/jupyterlab-unfold)](https://pypi.org/project/jupyterlab-unfold/)
+[![Conda (channel only)](https://img.shields.io/conda/vn/conda-forge/jupyterlab-unfold)](https://anaconda.org/conda-forge/jupyterlab-unfold)
 
 An IDE-like file browser
 
-![jupyterlab-unfold](images/screenshot.png)
+![jupyterlab-unfold](https://raw.githubusercontent.com/jupyterlab-contrib/jupyterlab-unfold/master/images/screenshot.png)
 
 ## Requirements
 
