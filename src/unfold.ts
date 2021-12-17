@@ -348,12 +348,7 @@ export class DirTreeListing extends DirListing {
       if (entry.type === 'directory') {
         this.model.path = '/' + entry.path;
 
-        if (
-          this._singleClickToUnfold &&
-          (event.button === 0 || // State toggled on main button
-            (event.button === 2 && !this.model.isOpen(entry.path)) || // State toggled on right click if folder is closed
-            event.type === 'click') // State toggled on click and double click
-        ) {
+        if (this._singleClickToUnfold && event.button === 0) {
           this.model.toggle(entry.path);
         }
       } else {
