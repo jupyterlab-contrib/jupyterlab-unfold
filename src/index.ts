@@ -111,4 +111,5 @@ const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
   }
 };
 
+export * from './unfold';
 export default extension;
