@@ -407,9 +407,10 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
     super(options);
 
     this.contentManager = this.manager.services.contents;
-    this.basePath = '.';
 
     this._savedState = options.state || null;
+
+    this._path = this.rootPath;
   }
 
   get path(): string {
@@ -427,13 +428,13 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
    *
    * @returns A promise with the contents of the directory.
    */
-  async cd(pathToUpdate = '.'): Promise<void> {
-    const result = await this.fetchContent(this.basePath, pathToUpdate);
+  async cd(pathToUpdate = this.rootPath): Promise<void> {
+    const result = await this.fetchContent(this.rootPath, pathToUpdate);
 
     // @ts-ignore
     this.handleContents({
-      name: '.',
-      path: '.',
+      name: this.rootPath,
+      path: this.rootPath,
       type: 'directory',
       content: result
     });
@@ -493,7 +494,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
       const value = await state.fetch(key);
 
       if (!value) {
-        await this.cd('.');
+        await this.cd(this.rootPath);
         this._isRestored.resolve(undefined);
         return;
       }
@@ -501,9 +502,9 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
       this.openState = (value as ReadonlyJSONObject)['openState'] as {
         [path: string]: boolean;
       };
-      await this.cd('.');
+      await this.cd(this.rootPath);
     } catch (error) {
-      await this.cd('.');
+      await this.cd(this.rootPath);
       await state.remove(key);
     }
 
@@ -515,11 +516,11 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
    *
    * @param pathToToggle - The path to discover/hide.
    */
-  async toggle(pathToToggle = '.'): Promise<void> {
+  async toggle(pathToToggle = this.rootPath): Promise<void> {
     this.openState[pathToToggle] = !this.openState[pathToToggle];
 
     // Refresh
-    this.cd('.');
+    this.cd(this.rootPath);
   }
 
   /**
@@ -539,6 +540,10 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
     pathToUpdate?: string
   ): Promise<Contents.IModel[]> {
     const result = await this.contentManager.get(path);
+
+    if (!result.content) {
+      return [];
+    }
 
     let items: Contents.IModel[] = [];
 
@@ -600,8 +605,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
   private _isRestored = new PromiseDelegate<void>();
   private _savedState: IStateDB | null = null;
   private _stateKey: string | null = null;
-  private _path = '.';
-  private basePath: string;
+  private _path: string;
   private contentManager: Contents.IManager;
   private openState: { [path: string]: boolean } = {};
 }
