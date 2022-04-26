@@ -207,6 +207,32 @@ export class DirTreeListing extends DirListing {
     return this._model;
   }
 
+  rename(): Promise<string> {
+    // In the case of renaming directories, we need to fix the model path
+    // So that it's the parent directory and not the directory itself
+    //
+    // We need to do this because we always change the model path upon directory
+    // selection, unlike the
+
+    const oldModelPath = this.model.path;
+    // @ts-ignore
+    const items = this._sortedItems;
+    const path = Object.keys(this.selection)[0];
+    // @ts-ignore
+    const index = ArrayExt.findFirstIndex(items, value => value.path === path);
+    const item: Contents.IModel = items[index];
+    if (item.type === 'directory' && this.model.path === '/' + item.path) {
+      this.model.path = '/' + PathExt.dirname(item.path);
+    }
+
+    const rename = super.rename();
+
+    // Revert path change
+    this.model.path = oldModelPath;
+
+    return rename;
+  }
+
   private async _eventDblClick(event: MouseEvent): Promise<void> {
     const entry = this.modelForClick(event);
 
