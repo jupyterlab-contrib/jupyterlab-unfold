@@ -1,0 +1,8 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "jupyterlab-unfold",
+  "description": "jupyterlab-unfold settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

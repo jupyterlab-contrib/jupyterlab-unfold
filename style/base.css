@@ -1,21 +1,18 @@
 :root {
-    --indent: 1em;
+  --indent: 1em;
 }
 
 .jp-DirListing-item {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .jp-DirListing-vbar {
-    border-left-color:  var(--jp-border-color2);
-    border-left-style: solid;
-    border-left-width: 1px;
-    margin-left: 10px;
-    margin-top: -4px;
-    margin-bottom: -4px;
-    margin-right: 2px;
+  /* This is the parent padding (hardcoded in JupyterLab, plus the font size) */
+  height: calc(12px + var(--jp-ui-font-size1));
+  border-left: 1px solid var(--jp-border-color2);
+  margin: -4px 2px -4px 10px;
 }
 
-.jp-DirListing-item.jp-mod-running .jp-DirListing-itemIcon:before {
-    left: -2px;
+.jp-DirListing-item.jp-mod-running .jp-DirListing-itemIcon::before {
+  left: -2px;
 }
