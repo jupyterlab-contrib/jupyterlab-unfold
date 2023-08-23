@@ -32,24 +32,24 @@ source = "nodejs"
 fields = ["description", "authors", "urls"]
 
 [tool.hatch.build.targets.sdist]
-artifacts = ["jupyterlab-unfold/labextension"]
+artifacts = ["jupyterlab_unfold/labextension"]
 exclude = [".github", "binder"]
 
 [tool.hatch.build.targets.wheel.shared-data]
-"jupyterlab-unfold/labextension" = "share/jupyter/labextensions/jupyterlab-unfold"
+"jupyterlab_unfold/labextension" = "share/jupyter/labextensions/jupyterlab-unfold"
 "install.json" = "share/jupyter/labextensions/jupyterlab-unfold/install.json"
 
 [tool.hatch.build.hooks.version]
-path = "jupyterlab-unfold/_version.py"
+path = "jupyterlab_unfold/_version.py"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
-    "jupyterlab-unfold/labextension/static/style.js",
-    "jupyterlab-unfold/labextension/package.json",
+    "jupyterlab_unfold/labextension/static/style.js",
+    "jupyterlab_unfold/labextension/package.json",
 ]
-skip-if-exists = ["jupyterlab-unfold/labextension/static/style.js"]
+skip-if-exists = ["jupyterlab_unfold/labextension/static/style.js"]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
@@ -59,7 +59,7 @@ npm = ["jlpm"]
 build_cmd = "install:extension"
 npm = ["jlpm"]
 source_dir = "src"
-build_dir = "jupyterlab-unfold/labextension"
+build_dir = "jupyterlab_unfold/labextension"
 
 [tool.jupyter-releaser.options]
 version_cmd = "hatch version"
