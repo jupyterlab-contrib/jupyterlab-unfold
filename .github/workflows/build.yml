@@ -127,7 +127,7 @@ jobs:
     - name: Execute integration tests
       working-directory: ui-tests
       run: |
-        jlpm playwright test --update-snapshots
+        jlpm playwright test
 
     - name: Upload Playwright Test report
       if: always()
