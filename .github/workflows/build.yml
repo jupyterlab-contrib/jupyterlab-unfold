@@ -137,6 +137,7 @@ jobs:
         path: |
           ui-tests/test-results
           ui-tests/playwright-report
+          ui-tests/tests/*-snapshots
 
   check_links:
     name: Check Links
