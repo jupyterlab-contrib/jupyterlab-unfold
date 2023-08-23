@@ -84,7 +84,7 @@ test.describe.serial('jupyterlab-unfold', () => {
   test('should open file', async ({ page }) => {
     let workspace = {
       data: {
-        'file-browser-jupyterlab-unfold:openState': {
+        'file-browser-filebrowser:openState': {
           openState: { '.': true, dir1: true, dir2: true, 'dir2/dir3': true }
         }
       },
