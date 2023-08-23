@@ -21,8 +21,6 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
-dependencies = [
-]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
 
 [tool.hatch.version]

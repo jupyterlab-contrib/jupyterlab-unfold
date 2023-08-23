@@ -52,7 +52,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: extension-artifacts
-        path: dist/jupyterlab-unfold*
+        path: dist/jupyterlab_unfold*
         if-no-files-found: error
 
   test_isolated:
@@ -75,7 +75,7 @@ jobs:
         sudo rm -rf $(which node)
         sudo rm -rf $(which node)
 
-        pip install "jupyterlab>=4.0.0,<5" jupyterlab-unfold*.whl
+        pip install "jupyterlab>=4.0.0,<5" jupyterlab_unfold*.whl
 
 
         jupyter labextension list
@@ -105,7 +105,7 @@ jobs:
     - name: Install the extension
       run: |
         set -eux
-        python -m pip install "jupyterlab>=4.0.0,<5" jupyterlab-unfold*.whl
+        python -m pip install "jupyterlab>=4.0.0,<5" jupyterlab_unfold*.whl
 
     - name: Install dependencies
       working-directory: ui-tests
