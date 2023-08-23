@@ -143,9 +143,16 @@ export class FileTreeRenderer extends DirListing.Renderer {
     fileType?: DocumentRegistry.IFileType,
     translator?: ITranslator,
     hiddenColumns?: Set<DirListing.ToggleableColumn>,
-    selected?: boolean,
+    selected?: boolean
   ): void {
-    super.updateItemNode(node, model, fileType, translator, hiddenColumns, selected);
+    super.updateItemNode(
+      node,
+      model,
+      fileType,
+      translator,
+      hiddenColumns,
+      selected
+    );
 
     if (model.type === 'directory' && this.model.isOpen(model.path)) {
       const iconContainer = DOMUtils.findElement(
