@@ -4,7 +4,7 @@
   "description": "JupyterLab jupyterlab-unfold Integration Tests",
   "private": true,
   "scripts": {
-    "start": "jupyter lab --config jupyter_server_test_config.py",
+    "start": "jupyter lab test_structure --config jupyter_server_test_config.py",
     "test": "jlpm playwright test",
     "test:update": "jlpm playwright test --update-snapshots"
   },
