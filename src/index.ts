@@ -7,9 +7,7 @@ import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
-import { addIcon } from '@jupyterlab/ui-components';
-
-import { WidgetTracker, ToolbarButton } from '@jupyterlab/apputils';
+import { WidgetTracker } from '@jupyterlab/apputils';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
@@ -19,11 +17,6 @@ import { IStateDB } from '@jupyterlab/statedb';
 
 import { FileTreeBrowser, FilterFileTreeBrowserModel } from './unfold';
 
-/**
- * The extension ID.
- */
-const EXTENSION_ID = 'jupyterlab-unfold';
-
 const SETTINGS_ID = 'jupyterlab-unfold:jupyterlab-unfold-settings';
 
 /**
@@ -31,8 +24,8 @@ const SETTINGS_ID = 'jupyterlab-unfold:jupyterlab-unfold-settings';
  */
 const namespace = 'filebrowser';
 
-const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
-  id: EXTENSION_ID,
+const fileBrowserFactory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
+  id: 'jupyterlab-unfold:FileBrowserFactory',
   provides: IFileBrowserFactory,
   requires: [IDocumentManager, ITranslator, ISettingRegistry],
   optional: [IStateDB],
@@ -83,33 +76,10 @@ const extension: JupyterFrontEndPlugin<IFileBrowserFactory> = {
       return widget;
     };
 
-    // Manually restore and load the default file browser.
-    const defaultBrowser = createFileBrowser(EXTENSION_ID, {
-      auto: false,
-      restore: false
-    });
-
-    // TODO Remove this! Why is this needed?
-    // The @jupyterlab/filebrowser-extension:launcher-toolbar-button extension should take care of this
-    const { commands } = app;
-    const trans = translator.load('jupyterlab');
-
-    // Add a launcher toolbar item.
-    const launcher = new ToolbarButton({
-      icon: addIcon,
-      onClick: () => {
-        if (commands.hasCommand('launcher:create')) {
-          return commands.execute('launcher:create');
-        }
-      },
-      tooltip: trans.__('New Launcher'),
-      actualOnClick: true
-    });
-    defaultBrowser.toolbar.insertItem(0, 'launch', launcher);
-
-    return { createFileBrowser, defaultBrowser, tracker };
+    return { createFileBrowser, tracker };
   }
 };
 
 export * from './unfold';
-export default extension;
+
+export default fileBrowserFactory;

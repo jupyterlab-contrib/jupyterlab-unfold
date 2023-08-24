@@ -142,9 +142,17 @@ export class FileTreeRenderer extends DirListing.Renderer {
     model: Contents.IModel,
     fileType?: DocumentRegistry.IFileType,
     translator?: ITranslator,
-    hiddenColumns?: Set<DirListing.ToggleableColumn>
+    hiddenColumns?: Set<DirListing.ToggleableColumn>,
+    selected?: boolean
   ): void {
-    super.updateItemNode(node, model, fileType, translator, hiddenColumns);
+    super.updateItemNode(
+      node,
+      model,
+      fileType,
+      translator,
+      hiddenColumns,
+      selected
+    );
 
     if (model.type === 'directory' && this.model.isOpen(model.path)) {
       const iconContainer = DOMUtils.findElement(
@@ -617,9 +625,22 @@ export class FileTreeBrowser extends FileBrowser {
   constructor(options: FileTreeBrowser.IOptions) {
     super(options);
 
-    this.layout.removeWidget(this.crumbs);
+    this.mainPanel.layout?.removeWidget(this.crumbs);
 
     this.showLastModifiedColumn = false;
+    this.showFileCheckboxes = false;
+  }
+
+  get showFileCheckboxes(): boolean {
+    return false;
+  }
+
+  set showFileCheckboxes(value: boolean) {
+    if (this.listing.setColumnVisibility) {
+      this.listing.setColumnVisibility('is_selected', false);
+      // @ts-ignore
+      this._showFileCheckboxes = false;
+    }
   }
 
   get showLastModifiedColumn(): boolean {

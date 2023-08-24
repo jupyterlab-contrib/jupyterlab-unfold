@@ -1,13 +1,13 @@
 {
-    "title": "jupyterlab-unfold settings",
-    "description": "Settings for the JupyterLab-unfold extension.",
-    "type": "object",
-    "properties": {
-      "singleClickToUnfold": {
-        "type": "boolean",
-        "title": "Single Click To Unfold",
-        "description": "Whether a single click triggers an (un)fold.",
-        "default": true
-      }
+  "title": "jupyterlab-unfold settings",
+  "description": "Settings for the JupyterLab-unfold extension.",
+  "type": "object",
+  "properties": {
+    "singleClickToUnfold": {
+      "type": "boolean",
+      "title": "Single Click To Unfold",
+      "description": "Whether a single click triggers an (un)fold.",
+      "default": true
     }
+  }
 }

@@ -1,0 +1,13 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.2.0
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: martin.renou@gmail.com
+author_name: Martin Renou
+has_binder: true
+has_settings: true
+kind: frontend
+labextension_name: jupyterlab-unfold
+project_short_description: A vscode-like file browser
+python_name: jupyterlab-unfold
+repository: https://github.com/jupyterlab-contrib/jupyterlab-unfold.git
+test: true

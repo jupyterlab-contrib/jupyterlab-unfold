@@ -1,6 +1,6 @@
 # jupyterlab-unfold
 
-[![Extension status](https://img.shields.io/badge/status-ready-success "ready to be used")](https://jupyterlab-contrib.github.io/)
+[![Extension status](https://img.shields.io/badge/status-ready-success 'ready to be used')](https://jupyterlab-contrib.github.io/)
 [![Github Actions Status](https://github.com/jupyterlab-contrib/jupyterlab-unfold/actions/workflows/build.yml/badge.svg)](https://github.com/jupyterlab-contrib/jupyterlab-unfold/actions?query=workflow%3ATests)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab-contrib/jupyterlab-unfold/master?urlpath=lab)
 [![PyPI](https://img.shields.io/pypi/v/jupyterlab-unfold)](https://pypi.org/project/jupyterlab-unfold/)
@@ -12,7 +12,7 @@ An IDE-like file browser
 
 ## Requirements
 
-* JupyterLab >= 3.1.0,<4.0
+- JupyterLab >= 3.1.0,<4.0
 
 ## Install
 
@@ -29,7 +29,6 @@ To remove the extension, execute:
 ```bash
 pip uninstall jupyterlab-unfold
 ```
-
 
 ## Contributing
 
@@ -78,7 +77,6 @@ pip uninstall jupyterlab-unfold
 In development mode, you will also need to remove the symlink created by `jupyter labextension develop`
 command. To find its location, you can run `jupyter labextension list` to figure out where the `labextensions`
 folder is located. Then you can remove the symlink named `jupyterlab-unfold` within that folder.
-
 
 ## Acknowledgement
 
