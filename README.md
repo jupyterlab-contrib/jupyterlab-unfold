@@ -12,7 +12,7 @@ An IDE-like file browser
 
 ## Requirements
 
-- JupyterLab >= 3.1.0,<4.0
+- JupyterLab >= 4.0.0,<5.0
 
 ## Install
 
