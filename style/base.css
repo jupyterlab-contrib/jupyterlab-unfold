@@ -2,6 +2,72 @@
   --indent: 1em;
 }
 
+li {
+  list-style-type: none;
+}
+
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.drive-search-list {
+  width: auto;
+}
+
+.drive-list-manager {
+  width: 800px;
+  height: 800px;
+}
+
+.search-add-drive-button {
+  background-color: var(--md-blue-700);
+  color: white;
+
+  /* width: 8em; */
+  height: 1em;
+  border-radius: 4px;
+}
+
+.input-add-drive-button {
+  position: relative;
+  background-color: var(--jp-brand-color1);
+  text-align: center;
+  color: white;
+  height: calc(
+    (var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px
+  );
+  border-radius: 4px;
+}
+
+.drive-search-input {
+  height: 14px;
+}
+
+.drive-data-grid {
+  width: 400px;
+}
+
+.data-grid-cell {
+  text-align: left;
+  height: 2em;
+  border-right: 2px;
+  border-left: 2px;
+  background-color: var(--jp-layout-color2);
+}
+
+.jp-Dialog-body {
+  width: 800px;
+  height: 800px;
+}
+
 .jp-DirListing-item {
   flex-grow: 1;
 }
