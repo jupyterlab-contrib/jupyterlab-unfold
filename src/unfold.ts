@@ -20,6 +20,8 @@ import { renameFile } from '@jupyterlab/docmanager';
 
 import { PathExt } from '@jupyterlab/coreutils';
 
+import { CustomDirListing } from './custom-dir-listing';
+
 import {
   DirListing,
   FileBrowser,
@@ -189,7 +191,7 @@ export class FileTreeRenderer extends DirListing.Renderer {
 /**
  * A widget which hosts a filetree.
  */
-export class DirTreeListing extends DirListing {
+export class DirTreeListing extends CustomDirListing {
   constructor(options: DirTreeListing.IOptions) {
     super({ ...options, renderer: new FileTreeRenderer(options.model) });
   }
