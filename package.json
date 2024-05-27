@@ -66,8 +66,7 @@
         "@jupyterlab/docmanager": "^4.0.5",
         "@jupyterlab/filebrowser": "^4.0.5",
         "@jupyterlab/services": "^7.0.5",
-        "@lumino/algorithm": "^2.0.0",
-        "@lumino/signaling": "^2.1.2"
+        "@lumino/algorithm": "^2.0.0"
     },
     "devDependencies": {
         "@jupyterlab/builder": "^4.0.0",
