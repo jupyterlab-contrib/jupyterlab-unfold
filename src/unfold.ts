@@ -8,6 +8,8 @@ import { ElementExt } from '@lumino/domutils';
 
 import { PromiseDelegate, ReadonlyJSONObject } from '@lumino/coreutils';
 
+import { Signal } from '@lumino/signaling';
+
 import { DOMUtils, showErrorMessage } from '@jupyterlab/apputils';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
@@ -18,7 +20,7 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import { renameFile } from '@jupyterlab/docmanager';
 
-import { PathExt } from '@jupyterlab/coreutils';
+import { PathExt, IChangedArgs } from '@jupyterlab/coreutils';
 
 import {
   DirListing,
@@ -426,7 +428,16 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
   }
 
   set path(value: string) {
+    const pathChanged = this.pathChanged as Signal<this, IChangedArgs<string>>;
+    const oldValue = this._path;
+
     this._path = value;
+
+    pathChanged.emit({
+      name: 'path',
+      oldValue,
+      newValue: value
+    });
   }
 
   /**
