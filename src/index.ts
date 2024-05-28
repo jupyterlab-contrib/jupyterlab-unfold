@@ -69,6 +69,15 @@ const fileBrowserFactory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
         widget.listing.singleClickToUnfold = setting.get('singleClickToUnfold')
           .composite as boolean;
       });
+   
+      // check the url in iframe and open
+      app.restored.then(() => {
+        const windowPathname = window.location.pathname;
+        let treeIndex = windowPathname.indexOf('/tree/');
+        let path = windowPathname.substring(treeIndex + '/tree/'.length);
+        path = decodeURIComponent(path);
+        docManager.open(path);
+      });
 
       // Track the newly created file browser.
       void tracker.add(widget);
