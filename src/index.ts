@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
@@ -71,12 +73,13 @@ const fileBrowserFactory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
       });
 
       // check the url in iframe and open
-      app.restored.then(() => {
+      app.restored.then(async () => {
         const windowPathname = window.location.pathname;
         const treeIndex = windowPathname.indexOf('/tree/');
         let path = windowPathname.substring(treeIndex + '/tree/'.length);
         path = decodeURIComponent(path);
-        if (path) {
+        const content = await app.serviceManager.contents.get(path);
+        if (content.type !== 'directory') {
           docManager.open(path);
         }
       });
@@ -87,6 +90,7 @@ const fileBrowserFactory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
       return widget;
     };
 
+    // @ts-ignore: DirListing._onPathChanged is private upstream, need to change this so we can remove the ignore
     return { createFileBrowser, tracker };
   }
 };
