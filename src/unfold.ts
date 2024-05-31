@@ -232,6 +232,7 @@ export class DirTreeListing extends DirListing {
 
   _onPathChanged(): void {
     // It's a no-op to overwrite the base class behavior
+    // We don't want to deselect everything when the path changes
   }
 
   private _eventDragEnter(event: IDragEvent): void {
