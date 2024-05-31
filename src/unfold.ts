@@ -428,18 +428,17 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
   }
 
   set path(value: string) {
+    this._path = value;
+
     if (this._path === value) {
       return;
     }
 
     const pathChanged = this.pathChanged as Signal<this, IChangedArgs<string>>;
-    const oldValue = this._path;
-
-    this._path = value;
 
     pathChanged.emit({
       name: 'path',
-      oldValue,
+      oldValue: this._path,
       newValue: value
     });
   }
