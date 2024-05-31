@@ -73,7 +73,7 @@ const fileBrowserFactory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
       // check the url in iframe and open
       app.restored.then(() => {
         const windowPathname = window.location.pathname;
-        let treeIndex = windowPathname.indexOf('/tree/');
+        const treeIndex = windowPathname.indexOf('/tree/');
         let path = windowPathname.substring(treeIndex + '/tree/'.length);
         path = decodeURIComponent(path);
         if (path) {
