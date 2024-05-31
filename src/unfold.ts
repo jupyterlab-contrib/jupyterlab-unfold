@@ -191,6 +191,7 @@ export class FileTreeRenderer extends DirListing.Renderer {
 /**
  * A widget which hosts a filetree.
  */
+// @ts-ignore: _onPathChanged is private upstream, need to change this
 export class DirTreeListing extends DirListing {
   constructor(options: DirTreeListing.IOptions) {
     super({ ...options, renderer: new FileTreeRenderer(options.model) });
@@ -227,6 +228,10 @@ export class DirTreeListing extends DirListing {
     } else {
       super.handleEvent(event);
     }
+  }
+
+  _onPathChanged(): void {
+    // It's a no-op to overwrite the base class behavior
   }
 
   private _eventDragEnter(event: IDragEvent): void {
@@ -428,19 +433,26 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
   }
 
   set path(value: string) {
-    this._path = value;
+    let needsToEmit = false;
 
-    if (this._path === value) {
-      return;
+    if (this._path !== value) {
+      needsToEmit = true;
     }
 
-    const pathChanged = this.pathChanged as Signal<this, IChangedArgs<string>>;
+    this._path = value;
 
-    pathChanged.emit({
-      name: 'path',
-      oldValue: this._path,
-      newValue: value
-    });
+    if (needsToEmit) {
+      const pathChanged = this.pathChanged as Signal<
+        this,
+        IChangedArgs<string>
+      >;
+
+      pathChanged.emit({
+        name: 'path',
+        oldValue: this._path,
+        newValue: PathExt.dirname(this._path)
+      });
+    }
   }
 
   /**
@@ -668,6 +680,7 @@ export class FileTreeBrowser extends FileBrowser {
   }
 
   protected createDirListing(options: DirListing.IOptions): DirListing {
+    // @ts-ignore: _onPathChanged is private upstream, need to change this
     return new DirTreeListing({
       model: this.model,
       translator: this.translator
@@ -680,5 +693,6 @@ export class FileTreeBrowser extends FileBrowser {
 
   model: FilterFileTreeBrowserModel;
 
+  // @ts-ignore: _onPathChanged is private upstream, need to change this
   listing: DirTreeListing;
 }
