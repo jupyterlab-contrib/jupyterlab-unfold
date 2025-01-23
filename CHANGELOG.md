@@ -2,6 +2,26 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.3
+
+([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab-unfold/compare/v0.3.2...b3eefd2fd60a6973f6d6601821c744e33ba96ca2))
+
+### Maintenance and upkeep improvements
+
+- Updated integration tests workflow [#55](https://github.com/jupyterlab-contrib/jupyterlab-unfold/pull/55) ([@krassowski](https://github.com/krassowski))
+
+### Other merged PRs
+
+- Update base.css. fix filename trunc #59 [#60](https://github.com/jupyterlab-contrib/jupyterlab-unfold/pull/60) ([@potoo0](https://github.com/potoo0))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab-unfold/graphs/contributors?from=2024-05-31&to=2025-01-23&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Agithub-actions+updated%3A2024-05-31..2025-01-23&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Akrassowski+updated%3A2024-05-31..2025-01-23&type=Issues) | [@potoo0](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Apotoo0+updated%3A2024-05-31..2025-01-23&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.2
 
 ([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab-unfold/compare/v0.3.1...f8bcc5481cdf0e709604db646c2fcf533f02a9af))
@@ -16,8 +36,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab-unfold/graphs/contributors?from=2024-05-28&to=2024-05-31&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Agithub-actions+updated%3A2024-05-28..2024-05-31&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3AmartinRenou+updated%3A2024-05-28..2024-05-31&type=Issues) | [@michaelchia](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Amichaelchia+updated%3A2024-05-28..2024-05-31&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.1
 
