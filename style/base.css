@@ -4,6 +4,11 @@
 
 .jp-DirListing-item {
   flex-grow: 1;
+  display: flex;
+}
+
+.jp-DirListing-itemName {
+  flex-grow: 1;
 }
 
 .jp-DirListing-vbar {
