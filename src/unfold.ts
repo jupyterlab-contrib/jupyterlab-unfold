@@ -440,6 +440,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
       needsToEmit = true;
     }
 
+    const oldValue = this._path;
     this._path = value;
 
     if (needsToEmit) {
@@ -450,8 +451,8 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
 
       pathChanged.emit({
         name: 'path',
-        oldValue: this._path,
-        newValue: PathExt.dirname(this._path)
+        oldValue,
+        newValue: this._path,
       });
     }
   }
