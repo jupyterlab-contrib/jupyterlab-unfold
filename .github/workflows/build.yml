@@ -131,7 +131,7 @@ jobs:
       if: failure()
       working-directory: ui-tests
       run: |
-        jlpm playwright test:update
+        jlpm run test:update
 
     - name: Upload Playwright Test report
       if: always()
