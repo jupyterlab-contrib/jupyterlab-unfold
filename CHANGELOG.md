@@ -2,6 +2,26 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.4
+
+([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab-unfold/compare/v0.3.3...aa541da2d8e4a97138e12a4099ce0e5431de00c0))
+
+### Bugs fixed
+
+- fix pathChanged signal to emit correct newValue [#63](https://github.com/jupyterlab-contrib/jupyterlab-unfold/pull/63) ([@michaelchia](https://github.com/michaelchia))
+
+### Maintenance and upkeep improvements
+
+- Fixing CI [#64](https://github.com/jupyterlab-contrib/jupyterlab-unfold/pull/64) ([@martinRenou](https://github.com/martinRenou))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab-unfold/graphs/contributors?from=2025-01-23&to=2025-05-20&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Agithub-actions+updated%3A2025-01-23..2025-05-20&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3AmartinRenou+updated%3A2025-01-23..2025-05-20&type=Issues) | [@michaelchia](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Amichaelchia+updated%3A2025-01-23..2025-05-20&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.3
 
 ([Full Changelog](https://github.com/jupyterlab-contrib/jupyterlab-unfold/compare/v0.3.2...b3eefd2fd60a6973f6d6601821c744e33ba96ca2))
@@ -19,8 +39,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab-contrib/jupyterlab-unfold/graphs/contributors?from=2024-05-31&to=2025-01-23&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Agithub-actions+updated%3A2024-05-31..2025-01-23&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Akrassowski+updated%3A2024-05-31..2025-01-23&type=Issues) | [@potoo0](https://github.com/search?q=repo%3Ajupyterlab-contrib%2Fjupyterlab-unfold+involves%3Apotoo0+updated%3A2024-05-31..2025-01-23&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.2
 
