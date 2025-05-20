@@ -452,7 +452,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
       pathChanged.emit({
         name: 'path',
         oldValue,
-        newValue: this._path,
+        newValue: this._path
       });
     }
   }
