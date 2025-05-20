@@ -127,15 +127,19 @@ jobs:
       run: |
         jlpm playwright test
 
+    - name: Update Playwright Test snapshots
+      if: failure()
+      working-directory: ui-tests
+      run: |
+        jlpm playwright test:update
+
     - name: Upload Playwright Test report
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: jupyterlab-unfold-playwright-tests
         path: |
-          ui-tests/test-results
-          ui-tests/playwright-report
-          ui-tests/tests/*-snapshots
+          ui-tests
 
   check_links:
     name: Check Links
