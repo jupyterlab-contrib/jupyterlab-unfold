@@ -22,10 +22,10 @@
         }
     ],
     "files": [
-        "schema/**/*.json",
         "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
         "style/**/*.{css,svg}",
-        "style/index.js"
+        "style/index.js",
+        "schema/*.json"
     ],
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -62,6 +62,8 @@
         "watch:src": "tsc -w --sourceMap"
     },
     "dependencies": {
+        "@jupyter/react-components": "^0.13.3",
+        "@jupyter/web-components": "^0.13.2",
         "@jupyterlab/application": "^4.0.5",
         "@jupyterlab/docmanager": "^4.0.5",
         "@jupyterlab/filebrowser": "^4.0.5",
