@@ -571,46 +571,70 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
     return !!this.openState[path];
   }
 
+  /**
+   * Force every open directory to be fetched from the server again, instead
+   * of relying on the cache built up by `fetchContent`.
+   */
+  async refresh(): Promise<void> {
+    this._contentCache.clear();
+    return super.refresh();
+  }
+
+  /**
+   * Get the listing of a directory, going through the cache when possible.
+   *
+   * @param path - The directory path.
+   *
+   * @returns The unsorted directory content.
+   */
+  private async listDirectory(path: string): Promise<Contents.IModel[]> {
+    const cached = this._contentCache.get(path);
+    if (cached) {
+      return cached;
+    }
+
+    const result = await this.contentManager.get(path);
+    const content = result.content ?? [];
+    this._contentCache.set(path, content);
+
+    return content;
+  }
+
   private async fetchContent(
     path: string,
     pathToUpdate?: string
   ): Promise<Contents.IModel[]> {
-    const result = await this.contentManager.get(path);
-
-    if (!result.content) {
-      return [];
-    }
-
-    let items: Contents.IModel[] = [];
-
-    const sortedContent = this.sortContents(result.content);
+    const sortedContent = this.sortContents(await this.listDirectory(path));
 
     this.openState[path] = true;
 
-    for (const entry of sortedContent) {
-      items.push(entry);
+    // These directories don't depend on each other, so fetch them
+    // concurrently rather than awaiting one at a time in the loop below.
+    const entries = await Promise.all(
+      sortedContent.map(async entry => {
+        if (entry.type !== 'directory') {
+          return [entry];
+        }
 
-      if (entry.type !== 'directory') {
-        continue;
-      }
+        const isOpen =
+          (pathToUpdate && pathToUpdate.startsWith('/' + entry.path)) ||
+          this.isOpen(entry.path);
 
-      const isOpen =
-        (pathToUpdate && pathToUpdate.startsWith('/' + entry.path)) ||
-        this.isOpen(entry.path);
+        if (!isOpen) {
+          this.openState[entry.path] = false;
+          return [entry];
+        }
 
-      if (isOpen) {
         const subEntryContent = await this.fetchContent(
           entry.path,
           pathToUpdate
         );
 
-        items = items.concat(subEntryContent);
-      } else {
-        this.openState[entry.path] = false;
-      }
-    }
+        return [entry, ...subEntryContent];
+      })
+    );
 
-    return items;
+    return entries.flat();
   }
 
   /**
@@ -644,6 +668,7 @@ export class FilterFileTreeBrowserModel extends FilterFileBrowserModel {
   private _path: string;
   private contentManager: Contents.IManager;
   private openState: { [path: string]: boolean } = {};
+  private _contentCache = new Map<string, Contents.IModel[]>();
 }
 
 /**
